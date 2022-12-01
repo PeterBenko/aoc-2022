@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "Advent of code 2022",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest"
   },
   "author": "Peter Benko",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "ts-jest": "^29.0.3"
+  }
 }
