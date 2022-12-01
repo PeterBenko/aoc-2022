@@ -19,10 +19,15 @@ export class Day1 {
                 
             this.consolidatedCalories[elfCount] += +ration;
         }
-        console.log(elfCount);
     }
 
     public mostCaloriesCarried(): number {
-        return Math.max(...this.consolidatedCalories);
+        return this.getTopCalories(1);
+    }
+
+    public getTopCalories(count: number): number {
+        const sorted = this.consolidatedCalories.sort((first, second) => first - second)
+        const relevantCalories = sorted.slice(-count);
+        return relevantCalories.reduce((acc, val) => acc+=val);
     }
 }
