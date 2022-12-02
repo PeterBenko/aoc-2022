@@ -15,7 +15,7 @@ describe('01', () => {
             const foo = new Day1(list);
 
             const result = foo.mostCaloriesCarried();
-            console.log(foo.mostCaloriesCarried())
+            console.log(result)
         })
     })
     describe('**', () => {
