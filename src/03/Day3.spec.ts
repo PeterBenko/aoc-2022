@@ -40,13 +40,14 @@ describe('03', () => {
             const input = fs.readFileSync('src/03/example.txt','utf8');
             const challenge = new Day3(input);
 
-            // expect(challenge.calculateScorePart2()).toBe(12);
+            expect(challenge.sumBadgePriorities()).toBe(70);
         })
+
         test('should solve challenge', () => {
             const list = fs.readFileSync('src/03/input.txt','utf8');
             const challenge = new Day3(list);
 
-            // console.log(challenge.calculateScorePart2());
+            console.log(challenge.sumBadgePriorities());
         })
     })
 })

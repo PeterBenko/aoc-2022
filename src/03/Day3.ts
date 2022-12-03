@@ -18,6 +18,16 @@ export class Day3 {
         return sum;
     }
 
+    public sumBadgePriorities(): number {
+        const rucksacks = [...this.rucksacks];
+        let badges = "";
+        while (rucksacks.length > 0){
+            // ! since we trust the list to have only complete groups
+            badges += this.findBadge([rucksacks.shift()!, rucksacks.shift()!, rucksacks.shift()!])
+        }
+        return [...badges].reduce((acc, badge) => acc + this.getPriority(badge), 0);
+    }
+
     public findDuplicatesInRucksacks(): string {
         let duplicateItems = "";
         for (const compartments of this.rucksacks) {
@@ -33,6 +43,17 @@ export class Day3 {
             }
         }
         return ""
+    }
+
+    private findBadge(group: [Compartments, Compartments, Compartments]): string {
+        const rucksacksUnited = [[...group[0][0], ...group[0][1]], [...group[1][0], ...group[1][1]], [...group[2][0], ...group[2][1]]];
+        for (const item of rucksacksUnited[0]) {
+            if (rucksacksUnited[1].includes(item) && rucksacksUnited[2].includes(item)) {
+                return item;
+            }
+        }
+
+        throw new Error("Badge not found");        
     }
 
     public getPriority(item: string): number {
