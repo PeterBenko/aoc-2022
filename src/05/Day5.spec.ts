@@ -4,7 +4,7 @@ import {Day5} from './Day5';
 
 describe('05', () => {
     describe('*', () => {
-        test('should find correct duplicates', () => {
+        test('should solve the example', () => {
             const input = fs.readFileSync('src/05/example.txt','utf8');
             const challenge = new Day5(input);
 
