@@ -81,24 +81,25 @@ export class Day8 {
     }
 
     public getScenicScore(y: number, x: number): number {
+        if (y === this.trees.length - 1 || y === 0 ||
+            x === this.trees[0].length - 1 || x === 0) {
+                return 0;
+            }
+
         const tree = this.trees[y][x];
         const treeLine = this.trees[y];
         const treeColumn = this.trees.map((value) => value[x]);
 
         const treeLineBefore = treeLine.slice(0, x).reverse();
-        const sliceLineIndex = -(treeLine.length - x - 1);
-        const sliceLineIndexAfter = sliceLineIndex != 0 ? sliceLineIndex : treeLine.length;
-        const treeLineAfter = treeLine.slice(sliceLineIndexAfter);
+        const treeLineAfter = treeLine.slice(-(treeLine.length - x - 1));
 
         const treeColumnBefore = treeColumn.slice(0, y).reverse();
-        const sliceColumnIndex = -(treeColumn.length - y - 1);
-        const sliceColumnIndexAfter = sliceColumnIndex != 0 ? sliceColumnIndex : treeColumn.length;
-        const treeColumnAfter = treeColumn.slice(sliceColumnIndexAfter);
+        const treeColumnAfter = treeColumn.slice(-(treeColumn.length - y - 1));
 
-        return (this.scoreView(treeLineBefore, tree) || 1) * 
-                (this.scoreView(treeLineAfter, tree) || 1) * 
-                (this.scoreView(treeColumnBefore, tree) || 1) * 
-                (this.scoreView(treeColumnAfter, tree) || 1);
+        return this.scoreView(treeLineBefore, tree) * 
+                this.scoreView(treeLineAfter, tree) * 
+                this.scoreView(treeColumnBefore, tree)* 
+                this.scoreView(treeColumnAfter, tree);
     }
 
     private scoreView(trees: number[], fromHeight: number): number {
