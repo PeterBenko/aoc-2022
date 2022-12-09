@@ -24,26 +24,28 @@ export class Day9 {
         }).flat();
     }
 
-    public traceTailMovements(): number {
+    public traceTailMovements(length: number): number {
         type State = {
-            tail: Point2d;
-            head: Point2d;
+            chain: Point2d[];
             tTrail: Point2d[];
         };
 
         const initialState: State = {
-            tail: new Point2d(0,0),
-            head: new Point2d(0,0),
+            chain: new Array(length).fill(new Point2d(0,0)),
             tTrail: []
         };
 
         const endState = this.movements.reduce((state, movement) => {
-            const newHead = state.head.add(movement);
-            const newTail = this.calculateTailPosition(state.tail, newHead)
+            const newHead = state.chain[0].add(movement);
+            const newChain = [newHead];
+            for (let index = 1; index < state.chain.length; index++) {
+                const link = state.chain[index];
+                const newLink = this.calculateTailPosition(link, newChain[index-1]);
+                newChain.push(newLink);
+            }
             return {
-                tail: newTail,
-                head: newHead,
-                tTrail: [...state.tTrail, newTail]
+                chain: newChain,
+                tTrail: [...state.tTrail, newChain[newChain.length-1]]
             };
         }, initialState);
         const uniquePositions = endState.tTrail.filter((value, index, self) => self.findIndex((p) => p.equals(value) ) === index);
