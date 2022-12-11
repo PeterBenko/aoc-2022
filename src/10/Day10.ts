@@ -1,5 +1,4 @@
 export class Day10 {
-    // [y][x]
     private readonly input: string[];
 
     constructor(input: string) {
