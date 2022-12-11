@@ -7,10 +7,7 @@ export class MonkeyFactory {
         const inspectionTokens = Array.from(monkeyLines.matchAll(/Operation: new = (.+)/gm))[0][1]
                                      .split(" ");
         const inspectionWorry = this.createInspectionWorryCalculation(inspectionTokens)
-        const testOperation = (itemWorry: number) => {
-            const mod = Array.from(monkeyLines.matchAll(/Test: divisible by (\d+)/gm))[0][1];
-            return (itemWorry % +mod) === 0;
-        }
+        const testDivisor = +Array.from(monkeyLines.matchAll(/Test: divisible by (\d+)/gm))[0][1];
         const throwOnTrueTest = (itemWorry: number, monkeys: Monkey[]) => {
             const monkeyIndex = Array.from(monkeyLines.matchAll(/If true: throw to monkey (\d+)/gm))[0][1];
             monkeys[+monkeyIndex].catch(itemWorry);
@@ -23,7 +20,7 @@ export class MonkeyFactory {
         return new Monkey(
             items,
             inspectionWorry,
-            testOperation,
+            testDivisor,
             throwOnTrueTest,
             throwOnFalseTest
         )

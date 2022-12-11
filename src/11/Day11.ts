@@ -9,7 +9,12 @@ export class Day11 {
     }
 
     public getLevelOfMonkeyBusinessWithRelief(rounds: number = 20): number {
-        const reliefManagement = (itemWorry: number): number => Math.floor(itemWorry / 3);
+        const reliefManagement = (itemWorry: number): number => {
+            const relievedWorry = Math.floor(itemWorry / 3);
+            const jointModulo = this.monkeys.reduce((acc, monkey) => acc * monkey.testDivisor, 1);
+            const cappedRelief = relievedWorry % jointModulo;
+            return cappedRelief;
+        }
         for (const round of new Array(rounds)) {
             for (const monkey of this.monkeys) {
                 monkey.throwAll(this.monkeys, reliefManagement);
@@ -21,9 +26,15 @@ export class Day11 {
     }
 
     public getLevelOfMonkeyBusinessNoRelief(rounds: number = 20): number {
+        const reliefManagement = (itemWorry: number): number => {
+            const jointModulo = this.monkeys.reduce((acc, monkey) => acc * monkey.testDivisor, 1);
+            const cappedRelief = itemWorry % jointModulo;
+            return cappedRelief;
+        }
+
         for (const round of new Array(rounds)) {
             for (const monkey of this.monkeys) {
-                monkey.throwAll(this.monkeys);
+                monkey.throwAll(this.monkeys, reliefManagement);
             }
         }
 
