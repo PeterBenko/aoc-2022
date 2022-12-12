@@ -1,12 +1,13 @@
 type Tile = {
     elevation: number,
-    neighbors: Tile[],
-    path: Tile[]
+    neighbors: Tile[]
 }
 
 export class Day12 {
 
     private mapTiles: Tile[][];
+    private startTile!: Tile;
+    private endTile!: Tile;
 
     constructor(input: string) {
         const elevationMap: number[][] = input.split("\n").map(
@@ -23,9 +24,19 @@ export class Day12 {
                 const neighbors = [mapTiles[y]?.[x + 1], mapTiles[y]?.[x - 1], mapTiles[y + 1]?.[x], mapTiles[y - 1]?.[x]].filter(Boolean);
                 const tile: Tile = {
                     elevation,
-                    neighbors,
-                    path: []
+                    neighbors
                 };
+
+                if (elevation === "S".charCodeAt(0)){
+                    this.startTile = tile;
+                    tile.elevation = "a".charCodeAt(0);
+                }
+
+                if (elevation === "E".charCodeAt(0)) {
+                    this.endTile = tile;
+                    tile.elevation = "z".charCodeAt(0);
+                }
+
                 neighbors.forEach(neighbor => {
                     neighbor.neighbors.push(tile);
                 })
@@ -36,26 +47,33 @@ export class Day12 {
     }
 
     public findPath(): number {
-        const allTiles = this.mapTiles.flat();
-        const startTile = allTiles.find(tile => tile.elevation === "S".charCodeAt(0))!;
-        startTile.elevation = "a".charCodeAt(0);
-        const endTile = allTiles.find(tile => tile.elevation === "E".charCodeAt(0))!;
-        endTile.elevation = "z".charCodeAt(0);
+        const startTile = this.startTile;
+        const endTileCheck = (tile: Tile) => tile === this.endTile;        
+        const isReachable = (tile: Tile, neighbor: Tile): boolean => (neighbor.elevation - tile.elevation) <= 1;
+        return this.findPathBetweenTiles(startTile, endTileCheck, isReachable);
+    }
 
-        let inspecting: Tile[] = [startTile];
+    public findScenicPath(): number {
+        const startTile = this.endTile;
+        const endTileCheck = (tile: Tile) => tile.elevation === "a".charCodeAt(0);
+        const isReachable = (tile: Tile, neighbor: Tile): boolean => (tile.elevation - neighbor.elevation) <= 1;
+        return this.findPathBetweenTiles(startTile, endTileCheck, isReachable);
+    }
+
+    private findPathBetweenTiles(start: Tile, endTileCheck: (tile: Tile) => boolean, isReachable: (tile: Tile, neighbor: Tile) => boolean) {
+        let inspecting: Tile[] = [start];
         const visitedTiles: Tile[] = [];
         let stepCount = 0;
         while (true) {
             const nextGeneration: Tile[] = [];
             for (const tile of inspecting) {
-                if (tile === endTile) {
+                if (endTileCheck(tile)) {
                     return stepCount;
                 }
                 for (const neighbor of tile.neighbors) {
                     const hasBeenVisited = visitedTiles.includes(neighbor);
                     const willBeVisited = nextGeneration.includes(neighbor);
-                    const isReachable = (neighbor.elevation - tile.elevation) <= 1
-                    if (!hasBeenVisited && !willBeVisited && isReachable) {                        
+                    if (!hasBeenVisited && !willBeVisited && isReachable(tile, neighbor)) {                        
                         nextGeneration.push(neighbor);
                     }
                 }

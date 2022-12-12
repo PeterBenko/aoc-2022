@@ -23,14 +23,14 @@ describe('12', () => {
             const input = fs.readFileSync('src/12/example.txt','utf8');
              const challenge = new Day12(input);
 
-            // expect(challenge.getLevelOfMonkeyBusinessNoRelief(10000)).toBe(2713310158);
+            expect(challenge.findScenicPath()).toBe(29);
         })
 
         test('should solve challenge', () => {
             const list = fs.readFileSync('src/12/input.txt','utf8');
             const challenge = new Day12(list);
 
-            // console.log("Solution **: ", challenge.getLevelOfMonkeyBusinessNoRelief(10000));
+            console.log("Solution **: ", challenge.findScenicPath());
         })
     })
 })
