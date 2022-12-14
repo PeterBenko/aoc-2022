@@ -19,18 +19,18 @@ describe('13', () => {
         })
     })
     describe('**', () => {
-        // test('should solve example', () => {
-        //     const input = fs.readFileSync('src/13/example.txt','utf8');
-        //      const challenge = new Day13(input);
+        test('should solve example', () => {
+            const input = fs.readFileSync('src/13/example.txt','utf8');
+             const challenge = new Day13(input);
 
-        //     // expect(challenge.findScenicPath()).toBe(29);
-        // })
+            expect(challenge.multDividerPositions()).toBe(140);
+        })
 
-        // test('should solve challenge', () => {
-        //     const list = fs.readFileSync('src/13/input.txt','utf8');
-        //     const challenge = new Day13(list);
+        test('should solve challenge', () => {
+            const list = fs.readFileSync('src/13/input.txt','utf8');
+            const challenge = new Day13(list);
 
-        //     // console.log("Solution **: ", challenge.findScenicPath());
-        // })
+            console.log("Solution **: ", challenge.multDividerPositions());
+        })
     })
 })

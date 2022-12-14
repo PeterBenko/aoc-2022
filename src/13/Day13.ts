@@ -25,6 +25,21 @@ export class Day13 {
         }, 0)
     }
 
+    public multDividerPositions(): number {
+        const dividers = [[[2]], [[6]]];
+        const sorted = this.sort(dividers);
+        return dividers.reduce((acc, divider) => {
+            return acc * (sorted.indexOf(divider) + 1)
+        }, 1);
+    }
+
+    private sort(dividers: Packet[]): Packet[] {
+        const allpacketsWithDivireds = this.packets.flat().concat(dividers);
+        const sorted = allpacketsWithDivireds.sort((a, b) => this.areInRightOrder(a, b)).reverse();
+        console.log(sorted);
+        return sorted;
+    }
+
     public areInRightOrder(left: Packet, right: Packet): number {
         if(typeof left === "number" && typeof right === "number") {
             const diff = right - left;
