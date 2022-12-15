@@ -5,7 +5,7 @@ export class Day14 {
     private readonly inlet = new Point2d(500,0)
     private readonly map: ("." | "o" | "#")[][];
 
-    constructor(input: string) {
+    constructor(input: string, floor: boolean = false) {
         const pixels = input.split("\n").flatMap(contour => 
             contour.split(" -> ").map(corner => {
                 const coords = corner.split(",");
@@ -15,10 +15,15 @@ export class Day14 {
             })
         );
 
-        const width = Math.max(...pixels.map(pixel => pixel.x));
-        const height = Math.max(...pixels.map(pixel => pixel.y));
-        this.map = new Array(height + 1).fill('.').map(_ => new Array(width + 1).fill('.'));
+        const width = (Math.max(...pixels.map(pixel => pixel.x)) + 1) * 2;
+        const height = Math.max(...pixels.map(pixel => pixel.y)) + 1;
+        this.map = new Array(height).fill('.').map(_ => new Array(width).fill('.'));
         pixels.forEach(pixel => this.map[pixel.y][pixel.x] = "#")
+
+        if (floor) {
+            this.map.push(new Array(width).fill('.'));
+            this.map.push(new Array(width).fill('#'));
+        }
     }
 
     private pixelsBetween(start: Point2d, end: Point2d): Point2d[] {
@@ -53,6 +58,9 @@ export class Day14 {
                 // Place sand
                 this.map[contender.y][contender.x] = "o";
                 placedSand++;
+                if (contender.equals(this.inlet)) {
+                    break;
+                }
                 contender = this.inlet;
             } else {
                 contender = newContender;

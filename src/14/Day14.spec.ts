@@ -19,18 +19,18 @@ describe('14', () => {
         })
     })
     describe('**', () => {
-        // test('should solve example', () => {
-        //     const input = fs.readFileSync('src/14/example.txt','utf8');
-        //      const challenge = new Day14(input);
+        test('should solve example', () => {
+            const input = fs.readFileSync('src/14/example.txt','utf8');
+             const challenge = new Day14(input, true);
 
-        //     expect(challenge.multDividerPositions()).toBe(140);
-        // })
+            expect(challenge.fill()).toBe(93);
+        })
 
-        // test('should solve challenge', () => {
-        //     const list = fs.readFileSync('src/14/input.txt','utf8');
-        //     const challenge = new Day14(list);
+        test('should solve challenge', () => {
+            const list = fs.readFileSync('src/14/input.txt','utf8');
+            const challenge = new Day14(list, true);
 
-        //     console.log("Solution **: ", challenge.multDividerPositions());
-        // })
+            console.log("Solution **: ", challenge.fill());
+        })
     })
 })
