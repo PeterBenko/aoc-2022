@@ -18,19 +18,19 @@ describe('15', () => {
             console.log("Solution *: ", challenge.scannedAtDepth(2000000));
         })
     })
-    // describe('**', () => {
-    //     test('should solve example', () => {
-    //         const input = fs.readFileSync('src/15/example.txt','utf8');
-    //          const challenge = new Day15(input, true);
+    describe('**', () => {
+        test('should solve example', () => {
+            const input = fs.readFileSync('src/15/example.txt','utf8');
+             const challenge = new Day15(input);
 
-    //         expect(challenge.fill()).toBe(93);
-    //     })
+            expect(challenge.findLostSignal(0, 20)).toBe(56000011);
+        })
 
-    //     test('should solve challenge', () => {
-    //         const list = fs.readFileSync('src/15/input.txt','utf8');
-    //         const challenge = new Day15(list, true);
+        xtest('should solve challenge', () => {
+            const list = fs.readFileSync('src/15/input.txt','utf8');
+            const challenge = new Day15(list);
 
-    //         console.log("Solution **: ", challenge.fill());
-    //     })
-    // })
+            console.log("Solution **: ", challenge.findLostSignal(0, 4000000));
+        })
+    })
 })
