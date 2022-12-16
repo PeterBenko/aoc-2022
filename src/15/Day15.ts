@@ -37,11 +37,11 @@ export class Day15 {
 
     public findLostSignal(min: number, max: number): number {
         for (let depth = min; depth < max; depth++) {
-            if (depth % 40000 === 0) {
-                console.log(depth / 40000);
+            if (depth % (max/100) === 0) {
+                console.log(depth / max);
             }
 
-            const tilesAtDepth: [number, number, any][] = [];
+            const tilesAtDepth: [number, number][] = [];
             for (const data of this.sensorData) {
                 if(Math.abs(data.sensor.y - depth) > data.distance){
                     continue;
@@ -49,26 +49,23 @@ export class Day15 {
 
                 const depthDiff = Math.abs(data.distance - Math.abs(data.sensor.y - depth));
                 if (depthDiff === 0) {
-                    tilesAtDepth.push([data.sensor.x, data.sensor.x, [data.sensor.x, data.sensor.y, data.distance, depthDiff]])
+                    tilesAtDepth.push([data.sensor.x, data.sensor.x])
                 } else if (depthDiff > 0){
-                    tilesAtDepth.push([data.sensor.x - depthDiff, data.sensor.x + depthDiff, [data.sensor.x, data.sensor.y, data.distance, depthDiff]]);
+                    tilesAtDepth.push([data.sensor.x - depthDiff, data.sensor.x + depthDiff]);
                 }
             }
 
             // join the ranges
             const sortedRanges = tilesAtDepth.sort((a, b) => a[0] - b[0]);
-            let start = Math.max(0, sortedRanges[0][0]);
             let end = sortedRanges[0][1];
             for (let i = 1; i < sortedRanges.length; i++) {
                 if (sortedRanges[i][0] - end > 1) {
                     const x = end + 1;
-                    console.log("HIT!:", sortedRanges, x, i);
                     return depth + 4000000*x;
                 }
 
                 end = Math.max(end, sortedRanges[i][1]);
             }
-            console.log(depth, sortedRanges, start, end);
         }
 
         throw new Error("Distress beacon not found");

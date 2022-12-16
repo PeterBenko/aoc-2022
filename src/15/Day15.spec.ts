@@ -26,7 +26,7 @@ describe('15', () => {
             expect(challenge.findLostSignal(0, 20)).toBe(56000011);
         })
 
-        xtest('should solve challenge', () => {
+        test('should solve challenge', () => {
             const list = fs.readFileSync('src/15/input.txt','utf8');
             const challenge = new Day15(list);
 
